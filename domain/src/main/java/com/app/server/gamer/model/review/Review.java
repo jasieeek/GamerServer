@@ -1,9 +1,10 @@
-package com.app.server.gamer.model;
+package com.app.server.gamer.model.review;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -11,13 +12,10 @@ import javax.persistence.Id;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class Review {
     @Id
     private long id;
-    private String login;
-    private String password;
-    private String email;
-    private String avatar;
-    private boolean isAdmin;
-    private boolean isEditor;
+    @Column(columnDefinition = "TEXT")
+    private String content;
+    // powiazanie z userem i z game
 }
