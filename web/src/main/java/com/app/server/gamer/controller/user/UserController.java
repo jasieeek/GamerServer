@@ -1,20 +1,22 @@
 package com.app.server.gamer.controller.user;
 
-import com.app.server.gamer.model.user.User;
 import com.app.server.gamer.service.user.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 
 @RestController
 public class UserController {
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @GetMapping(path = "/getUsers")
-    public List<User> getUsers() {
-        return userService.getUsers();
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @GetMapping(path = "app/getUsers")
+    public ResponseEntity<?> getUsers() {
+        return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
     }
 }
