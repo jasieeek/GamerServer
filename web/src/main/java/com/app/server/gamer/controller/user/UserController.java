@@ -24,7 +24,7 @@ public class UserController {
     public ResponseEntity<?> getUsers() {
         return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
     }
-    @RequestMapping(value = "app/getUser/{id}")
+    @GetMapping(value = "app/getUser/{id}")
     public ResponseEntity<?> getUserById(@PathVariable String id){
         Optional<User> user = Optional.of(userService.getUserById(Integer.parseInt(id)));
         return user.isPresent() ? new ResponseEntity<>(user, HttpStatus.OK) : new ResponseEntity<>(user, HttpStatus.NOT_FOUND);
