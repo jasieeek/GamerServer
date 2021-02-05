@@ -16,5 +16,4 @@ public class Rating {
     @Column(name = "ID_RATING")
     private long id;
     private RatingValue value;
-
 }

@@ -1,13 +1,11 @@
 package com.app.server.gamer.model.subject;
 
-import com.app.server.gamer.model.post.Post;
 import com.app.server.gamer.model.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Data
@@ -21,8 +19,6 @@ public class Subject {
     private String value;
     @ManyToOne
     private User user;
-    @OneToMany(mappedBy = "subject")
-    List<Post> posts;
 
     public Subject(String value, User user) {
         this.value = value;

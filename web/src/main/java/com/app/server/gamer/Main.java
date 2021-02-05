@@ -1,8 +1,10 @@
 package com.app.server.gamer;
 
+import com.app.server.gamer.model.news.News;
 import com.app.server.gamer.model.post.Post;
 import com.app.server.gamer.model.subject.Subject;
 import com.app.server.gamer.model.user.User;
+import com.app.server.gamer.repostiory.news.NewsRepository;
 import com.app.server.gamer.repostiory.post.PostRepository;
 import com.app.server.gamer.repostiory.subject.SubjectRepository;
 import com.app.server.gamer.repostiory.user.UserRepository;
@@ -10,6 +12,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.support.ErrorPageFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -52,6 +56,13 @@ public class Main {
                 new Post(1L, "title", LocalDateTime.now(), LocalDateTime.now(), "content", userRepository.findById(1L).orElse(null), subjectRepository.findById(1L).orElse(null)),
                 new Post(2L, "title2", LocalDateTime.now(), LocalDateTime.now(), "content2", userRepository.findById(1L).orElse(null), subjectRepository.findById(1L).orElse(null)),
                 new Post(3L, "title3", LocalDateTime.now(), LocalDateTime.now(), "content3", userRepository.findById(2L).orElse(null), subjectRepository.findById(1L).orElse(null)))
+                .collect(Collectors.toList()));
+    }
+
+    @Bean
+    CommandLineRunner initNews(NewsRepository newsRepository, UserRepository userRepository) {
+        return args -> newsRepository.saveAll(Stream.of(
+                new News())
                 .collect(Collectors.toList()));
     }
 }

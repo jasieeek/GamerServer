@@ -1,7 +1,6 @@
 package com.app.server.gamer.model.game;
 
 import com.app.server.gamer.model.rating.Rating;
-import com.app.server.gamer.model.review.Review;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,9 +19,6 @@ public class Game {
     private long id;
     private String title;
     private String image;
-    @OneToMany
-    @JoinColumn(name = "GAME_ID", referencedColumnName = "ID_GAME")
-    private List<Review> reviews;
     @ManyToMany
-    List<Rating> ratings;
+    private List<Rating> ratings;
 }

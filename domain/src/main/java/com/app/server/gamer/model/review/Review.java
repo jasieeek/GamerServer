@@ -1,5 +1,6 @@
 package com.app.server.gamer.model.review;
 
+import com.app.server.gamer.model.game.Game;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,4 +18,6 @@ public class Review {
     private long id;
     @Column(columnDefinition = "TEXT")
     private String content;
+    @ManyToOne
+    private Game game;
 }
