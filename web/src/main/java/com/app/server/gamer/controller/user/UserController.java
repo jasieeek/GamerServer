@@ -23,7 +23,7 @@ public class UserController {
     @GetMapping(path = "app/getUsers")
     public ResponseEntity<?> getUsers() {
         return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
-    }
+    }  
     @GetMapping(value = "app/getUser/{id}")
     public ResponseEntity<?> getUserById(@PathVariable String id){
         Optional<User> user = Optional.of(userService.getUserById(Integer.parseInt(id)));
