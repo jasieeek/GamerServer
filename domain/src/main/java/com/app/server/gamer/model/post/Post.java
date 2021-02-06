@@ -1,12 +1,12 @@
 package com.app.server.gamer.model.post;
 
+import com.app.server.gamer.model.subject.Subject;
+import com.app.server.gamer.model.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -15,11 +15,20 @@ import java.util.Date;
 @NoArgsConstructor
 public class Post {
     @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    @Column(name = "ID_POST")
     private long id;
     private String title;
     private Date createDate;
     private Date modifyDate;
     @Column(columnDefinition = "TEXT")
     private String content;
-    // powiazanie z subjectem
+
+    @ManyToOne
+    @JoinColumn(name = "SUBJECT_ID")
+    Subject subject;
+    @ManyToOne
+    @JoinColumn(name = "USER_ID")
+    User user;
+
 }
