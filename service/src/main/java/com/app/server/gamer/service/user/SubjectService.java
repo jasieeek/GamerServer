@@ -1,7 +1,6 @@
 package com.app.server.gamer.service.user;
 
 import com.app.server.gamer.model.subject.Subject;
-import com.app.server.gamer.model.user.User;
 import com.app.server.gamer.repository.subject.SubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

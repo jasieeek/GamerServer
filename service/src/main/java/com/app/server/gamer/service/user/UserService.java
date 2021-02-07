@@ -1,10 +1,11 @@
 package com.app.server.gamer.service.user;
 
-import com.app.server.gamer.model.subject.Subject;
 import com.app.server.gamer.model.user.User;
-import com.app.server.gamer.repository.subject.SubjectRepository;
 import com.app.server.gamer.repostiory.user.UserRepository;
+import com.app.server.gamer.service.user.utilities.SimpleRegistrationDataChecker;
+import com.app.server.gamer.service.utilities.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -17,6 +18,11 @@ import java.util.stream.Stream;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    @Qualifier("MD5")
+    PasswordEncoder passwordEncoder;
+    @Autowired
+    SimpleRegistrationDataChecker simpleRegistrationDataChecker;
 
     @PostConstruct
     public void initUsers() {
@@ -41,4 +47,10 @@ public class UserService {
         return userRepository.findById(id).orElse(null);
 
     }
+
+    public void saveUser(String login, String password, String email, boolean isAdmin, boolean isEditor){
+
+    }
+
+
 }
