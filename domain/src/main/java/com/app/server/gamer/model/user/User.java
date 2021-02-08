@@ -15,17 +15,20 @@ public class User {
     private long id;
     private String login;
     private String password;
+    private String salt;
     private String email;
     private String avatar;
     private boolean activated;
     private boolean isAdmin;
     private boolean isEditor;
 
-    public User(String login, String password, String email, String avatar, boolean isAdmin, boolean isEditor) {
+    public User(String login, String password, String salt, String email, String avatar, boolean activated, boolean isAdmin, boolean isEditor) {
         this.login = login;
         this.password = password;
+        this.salt = salt;
         this.email = email;
         this.avatar = avatar;
+        this.activated = activated;
         this.isAdmin = isAdmin;
         this.isEditor = isEditor;
     }

@@ -6,5 +6,5 @@ import java.security.NoSuchAlgorithmException;
 
 public interface PasswordEncoder {
     byte[] provideSalt();
-    String encryptPassword(String password, String salt) throws NoSuchAlgorithmException;
+    String[] provideEncryptedPasswordAndSalt(String password, String salt) throws NoSuchAlgorithmException;
 }

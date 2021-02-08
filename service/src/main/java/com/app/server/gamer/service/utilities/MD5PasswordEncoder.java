@@ -10,8 +10,6 @@ import java.util.Random;
 
 @Service("MD5")
 public class MD5PasswordEncoder implements PasswordEncoder {
-    private String salt;
-
     @Override
     public byte[] provideSalt() {
         Random rd = new Random();
@@ -21,28 +19,21 @@ public class MD5PasswordEncoder implements PasswordEncoder {
     }
 
     @Override
-    public String encryptPassword(String password, String salt) throws NoSuchAlgorithmException {
+    public String[] provideEncryptedPasswordAndSalt(String password, String salt) throws NoSuchAlgorithmException {
         MessageDigest messageDigest = MessageDigest.getInstance("MD5");
         byte[] input = password.getBytes(StandardCharsets.UTF_8);
         messageDigest.update(input);
-
         if (salt == null) {
             byte[] newSalt = provideSalt();
             messageDigest.update(newSalt);
             salt = DatatypeConverter.printHexBinary(newSalt);
-
         } else {
             byte[] oldSalt = salt.getBytes(StandardCharsets.UTF_8);
             messageDigest.update(oldSalt);
         }
-
         byte[] output = messageDigest.digest(input);
         String encryptedPassword = DatatypeConverter.printHexBinary(output);
-        this.salt = salt;
-        return encryptedPassword;
+        return new String[]{encryptedPassword, salt};
     }
 
-    public String getSalt() {
-        return salt;
-    }
 }

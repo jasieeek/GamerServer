@@ -1,44 +1,33 @@
 package com.app.server.gamer.service.user;
 
 import com.app.server.gamer.model.user.User;
+import com.app.server.gamer.model.user.UserDTO;
 import com.app.server.gamer.repostiory.user.UserRepository;
-import com.app.server.gamer.service.user.utilities.SimpleActivationLinkService;
-import com.app.server.gamer.service.user.utilities.SimpleRegistrationDataChecker;
+import com.app.server.gamer.service.activationLink.ActivationLinkService;
+import com.app.server.gamer.service.user.utilities.RegistrationDataChecker;
 import com.app.server.gamer.service.utilities.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 
 @Service
 public class UserService {
+
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    @Qualifier("MD5")
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
     @Autowired
-    SimpleRegistrationDataChecker simpleRegistrationDataChecker;
+    private RegistrationDataChecker registrationDataChecker;
     @Autowired
-    SimpleActivationLinkService simpleActivationLinkService;
+    private ActivationLinkService activationLinkService;
 
     @PostConstruct
     public void initUsers() {
-
-
-        userRepository.saveAll(Stream.of(
-                new User("login", "password", "email", "avatar", true, true),
-                new User("login2", "password2", "email2", "avatar2", false, true),
-                new User("login3", "password3", "email3", "avatar3", false, false))
-                .collect(Collectors.toList()));
-
-        Optional<User> user = userRepository.findById(1L);
-        System.out.println(user);
     }
 
     public List<User> getUsers() {
@@ -48,11 +37,32 @@ public class UserService {
 
     public User getUserById(long id) {
         return userRepository.findById(id).orElse(null);
-
     }
 
-    public void saveUser(String login, String password, String email, boolean isAdmin, boolean isEditor){
+    public void activateUser(User user) {
+        user.setActivated(true);
+        userRepository.save(user);
+    }
 
+    public String saveUser(UserDTO userDTO) {
+        String login = userDTO.getLogin();
+        String[] passwordAndSalt = new String[2];
+        try {
+            passwordAndSalt = passwordEncoder.provideEncryptedPasswordAndSalt(userDTO.getPassword(), null);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        String email = userDTO.getEmail();
+        boolean loginNotUsed = !registrationDataChecker.checkIfLoginAlreadyUsed(login);
+        boolean emailNotUsed = !registrationDataChecker.checkIfEmailAlreadyUsed(email);
+        if (loginNotUsed && emailNotUsed) {
+            User newUser = new User(login, passwordAndSalt[0], passwordAndSalt[1], email, null, false, false, false);
+            userRepository.save(newUser);
+            String link = activationLinkService.generateLink();
+            activationLinkService.serveRegistration(newUser, link);
+            return "userSaved";
+        } else if (!loginNotUsed) return "loginTaken";
+        return "emailTaken";
     }
 
 

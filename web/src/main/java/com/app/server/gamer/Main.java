@@ -34,9 +34,9 @@ public class Main {
     @Bean
     CommandLineRunner initUsers(UserRepository userRepository) {
         return args -> userRepository.saveAll(Stream.of(
-                new User("login", "password", "email", "avatar", true, true),
-                new User("login2", "password2", "email2", "avatar2", false, true),
-                new User("login3", "password3", "email3", "avatar3", false, false))
+                new User("login", "password", null, "email", "avatar",false, true, true),
+                new User("login2", "password2", null, "email2", "avatar2", false,false, true),
+                new User("login3", "password3", null, "email3", "avatar3",false,  false, false))
                 .collect(Collectors.toList()));
     }
 
