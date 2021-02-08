@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -15,20 +15,16 @@ import java.util.Date;
 @NoArgsConstructor
 public class Post {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_POST")
     private long id;
     private String title;
-    private Date createDate;
-    private Date modifyDate;
+    private LocalDateTime createDate;
+    private LocalDateTime modifyDate;
     @Column(columnDefinition = "TEXT")
     private String content;
-
     @ManyToOne
-    @JoinColumn(name = "SUBJECT_ID")
-    Subject subject;
+    private User user;
     @ManyToOne
-    @JoinColumn(name = "USER_ID")
-    User user;
-
+    private Subject subject;
 }
