@@ -14,18 +14,4 @@ public class SimpleRegistrationDataChecker implements RegistrationDataChecker{
         return false;
     }
 
-    @Override
-    public boolean checkIfLoginInCorrectForm() {
-        return false;
-    }
-
-    @Override
-    public boolean checkIfEmailInCorrectFOrm() {
-        return false;
-    }
-
-    @Override
-    public boolean checkIfPasswordInCorrectForm() {
-        return false;
-    }
 }

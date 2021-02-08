@@ -13,10 +13,5 @@ public class SubjectService {
     @Autowired
     private SubjectRepository subjectRepository;
 
-    @PostConstruct
-    public void initUsers() {
-        subjectRepository.saveAll(Stream.of(
-                new Subject("xd"))
-                .collect(Collectors.toList()));
-    }
+
 }
