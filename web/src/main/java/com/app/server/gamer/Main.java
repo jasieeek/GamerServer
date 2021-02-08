@@ -59,10 +59,10 @@ public class Main {
                 .collect(Collectors.toList()));
     }
 
-    @Bean
-    CommandLineRunner initNews(NewsRepository newsRepository, UserRepository userRepository) {
-        return args -> newsRepository.saveAll(Stream.of(
-                new News())
-                .collect(Collectors.toList()));
-    }
+//    @Bean
+//    CommandLineRunner initNews(NewsRepository newsRepository, UserRepository userRepository) {
+//        return args -> newsRepository.saveAll(Stream.of(
+//                new News())
+//                .collect(Collectors.toList()));
+//    }
 }
