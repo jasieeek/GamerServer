@@ -19,7 +19,7 @@ public class ActivationLinkService {
     @Autowired
     private MailService mailService;
 
-    public String generateLink() {
+    private String generateLink() {
         final int numberCount = 8;
         Random random = new Random();
         String numbers = "";
@@ -28,16 +28,17 @@ public class ActivationLinkService {
         }
         return numbers;
     }
-    public void deleteLinkAfterActivation(String content) {
-        activationLinkRepository.deleteActivationLinkByContent(content);
+    public void deleteLinkAfterActivation(String activationLinkContent) {
+        activationLinkRepository.deleteActivationLinkByContent(activationLinkContent);
     }
-    public void serveRegistration(User user, String link){
+    public void serveRegistration(User user){
+        String link = generateLink();
         activationLinkRepository.save(new ActivationLink(link, user));
         mailService.sendActivationLink(user.getEmail(), link);
     }
-    public void activateUser(String content){
-        ActivationLink activationLink = activationLinkRepository.findActivationLinkByContent(content);
+    public void activateUser(String activationLinkContent){
+        ActivationLink activationLink = activationLinkRepository.findActivationLinkByContent(activationLinkContent);
         userService.activateUser(activationLink.getUser());
-        deleteLinkAfterActivation(content);
+        deleteLinkAfterActivation(activationLinkContent);
     }
 }

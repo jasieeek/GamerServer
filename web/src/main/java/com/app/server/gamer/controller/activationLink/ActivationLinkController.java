@@ -14,9 +14,9 @@ public class ActivationLinkController {
     @Autowired
     private ActivationLinkService activationLinkService;
 
-    @GetMapping(path = "app/activate/{content}")
-    public ResponseEntity<?> activateClient(@PathVariable String content){
-        activationLinkService.activateUser(content);
+    @GetMapping(path = "app/activate/{activationLinkContent}")
+    public ResponseEntity<?> activateClient(@PathVariable String activationLinkContent){
+        activationLinkService.activateUser(activationLinkContent);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 }

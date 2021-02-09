@@ -7,6 +7,7 @@ import com.app.server.gamer.service.activationLink.ActivationLinkService;
 import com.app.server.gamer.service.user.utilities.RegistrationDataChecker;
 import com.app.server.gamer.service.utilities.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -20,6 +21,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
+    @Qualifier("MD5")
     private PasswordEncoder passwordEncoder;
     @Autowired
     private RegistrationDataChecker registrationDataChecker;
@@ -58,8 +60,7 @@ public class UserService {
         if (loginNotUsed && emailNotUsed) {
             User newUser = new User(login, passwordAndSalt[0], passwordAndSalt[1], email, null, false, false, false);
             userRepository.save(newUser);
-            String link = activationLinkService.generateLink();
-            activationLinkService.serveRegistration(newUser, link);
+            activationLinkService.serveRegistration(newUser);
             return "userSaved";
         } else if (!loginNotUsed) return "loginTaken";
         return "emailTaken";
